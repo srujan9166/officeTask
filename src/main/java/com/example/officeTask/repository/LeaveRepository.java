@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.officeTask.model.Leave;
 
 @Repository
-public interface LeavesRepository extends JpaRepository<Leave, Long> {
+public interface LeaveRepository extends JpaRepository<Leave, Long> {
 
 }

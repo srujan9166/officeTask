@@ -7,5 +7,5 @@ import com.example.officeTask.model.Department;
 
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
-
+        
 }

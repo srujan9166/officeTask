@@ -6,14 +6,16 @@ import com.example.officeTask.enums.EmployeeStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumeratedValue;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,15 +47,19 @@ public class Employee {
 
     private LocalDate joiningDate;
 
-   @Min(value = 1, message = "Salary must be greater than 0")
-   @Column(nullable = false)
+    @Min(value = 1, message = "Salary must be greater than 0")
+    @Column(nullable = false)
     private Double salary;
-
+    @Enumerated(EnumType.STRING)
     private EmployeeStatus status;
 
-    @OneToMany(mappedBy = "manager")
-    private List<Department> managedDepartments;
+    @OneToOne
+    @JoinColumn(name = "manager_id")
+    private Employee manager;
 
+   
+
+    
 
 
 

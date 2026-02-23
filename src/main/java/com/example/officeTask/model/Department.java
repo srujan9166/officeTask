@@ -1,5 +1,6 @@
 package com.example.officeTask.model;
 import java.util.List;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,12 +29,13 @@ public class Department {
     private String name;
 
    
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Employee> employee;
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private Employee manager;
+    
 
 
 
