@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employee_id;
+    private Long employeeId;
 
     @Column(nullable = false)
     private String name;
@@ -56,6 +56,8 @@ public class Employee {
     @OneToOne
     @JoinColumn(name = "manager_id")
     private Employee manager;
+
+  
 
    
 

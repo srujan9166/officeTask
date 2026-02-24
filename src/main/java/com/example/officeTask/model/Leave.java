@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import com.example.officeTask.enums.LeaveStatus;
 import com.example.officeTask.enums.LeaveType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +25,7 @@ public class Leave {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long leave_id;
+    private Long leaveId;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
@@ -31,9 +33,9 @@ public class Leave {
 
     private LocalDate startDate;
     private LocalDate endDate;
-
+    @Enumerated(EnumType.STRING)
     private LeaveType leaveType;
-
+    @Enumerated(EnumType.STRING)
     private LeaveStatus leaveStatus;
 
     private String reason;

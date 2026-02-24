@@ -65,7 +65,7 @@ public class DepartmentService {
 
     private Employee convertDTOToEmployee(EmployeeDTO dto) {
         Employee employee = new Employee();
-        employee.setEmployee_id(dto.getEmployee_id());
+        employee.setEmployeeId(dto.getEmployee_id());
         employee.setName(dto.getName());
         employee.setEmail(dto.getEmail());
         employee.setDesignation(dto.getDesignation());
@@ -87,7 +87,7 @@ public class DepartmentService {
         dto.setName(department.getName());
         
         if (department.getManager() != null) {
-            dto.setManager_id(department.getManager().getEmployee_id());
+            dto.setManager_id(department.getManager().getEmployeeId());
         }
         
         if (department.getEmployee() != null) {
@@ -101,7 +101,7 @@ public class DepartmentService {
 
     private EmployeeDTO convertEmployeeToDTO(Employee employee) {
         EmployeeDTO dto = new EmployeeDTO();
-        dto.setEmployee_id(employee.getEmployee_id());
+        dto.setEmployee_id(employee.getEmployeeId());
         dto.setName(employee.getName());
         dto.setEmail(employee.getEmail());
         dto.setDesignation(employee.getDesignation());

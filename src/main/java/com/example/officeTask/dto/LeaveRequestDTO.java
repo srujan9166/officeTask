@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestDTO {
-    private Long employee_id;
+public class LeaveRequestDTO {
+    
     private LocalDate  startDate;
     private LocalDate endDate;
     private LeaveType leaveType;
