@@ -5,9 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Service;
 
 import com.example.officeTask.dto.LeaveRequestDTO;
@@ -73,14 +71,13 @@ public class LeaveService {
                            .toList();
    }
 
-   public LeaveResponseDTO leaveStatus() {
-    Employee employee = getCurrentEmployee();
-    Leave leave = leaveRepository.findByEmployee(employee)
-                    .orElseThrow(()-> new RuntimeException("Leave id for that employee is not present"));
-    return LeaveMapper.toResponse(leave);
-
-    
-   }
+  public List<LeaveResponseDTO> leaveStatus() {
+        Employee employee = getCurrentEmployee();
+        return leaveRepository.findByEmployee_EmployeeId(employee.getEmployeeId())
+                .stream()
+                .map(LeaveMapper::toResponse)
+                .toList();
+    }
 
    public List<LeaveResponseDTO> allApproved() {
     return leaveRepository.findAll().stream()

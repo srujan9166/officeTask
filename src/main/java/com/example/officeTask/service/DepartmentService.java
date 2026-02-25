@@ -10,20 +10,17 @@ import com.example.officeTask.repository.DepartmentRepository;
 import com.example.officeTask.repository.EmployeeRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
-    private final EmployeeService employeeService;
     private final EmployeeRepository employeeRepository;
    
 
     public DepartmentService(DepartmentRepository departmentRepository, EmployeeService employeeService, EmployeeRepository employeeRepository) {
         this.departmentRepository = departmentRepository;
-        this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
         
     }

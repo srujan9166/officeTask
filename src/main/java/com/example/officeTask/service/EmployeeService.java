@@ -52,6 +52,8 @@ public class EmployeeService {
         employee.setSalary(employeeDTO.getSalary());
         employee.setStatus(employeeDTO.getStatus());
 
+        Employee savedEmployee = employeeRepository.save(employee);
+
         User newUser = new User();
         newUser.setUsername(employeeDTO.getEmail());
         newUser.setPassword(passwordEncoder.encode("bisag"));
@@ -64,18 +66,18 @@ public class EmployeeService {
             employee.setDepartment(departmentRepository.findById(employeeDTO.getDepartment_id()).orElse(null));
         }
         
-        Employee savedEmployee = employeeRepository.save(employee);
+        
         return convertToDTO(savedEmployee);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('CEO') ")
+    
     public EmployeeDTO getEmployeeById(Long id) {
       return employeeRepository.findById(id)
                  .map(emp -> convertToDTO(emp))
                  .orElseThrow(() -> new RuntimeException("Employee not found"));
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('CEO') ")
+    
     public List<EmployeeDTO> getAllEmployees() {
         return employeeRepository.findAll().stream()
                 .map(emp -> convertToDTO(emp))

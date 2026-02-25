@@ -18,9 +18,7 @@ import com.example.officeTask.service.CustomUserDetailsService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import java.net.http.HttpRequest;
 
-import javax.management.relation.Role;
 
 
 @Configuration
@@ -30,30 +28,53 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .cors(withDefaults())
             .csrf(csrf -> csrf.disable())
             
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/h2-console").permitAll()
-                .requestMatchers(HttpMethod.POST,"/employees/create").hasAnyRole("CEO","MANAGER")
-                .requestMatchers(HttpMethod.POST,"/employees/createManager").hasRole("CEO")
-                .requestMatchers(HttpMethod.POST, "/employees/**").hasAnyRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/employees/**").hasAnyRole( "CEO","MANAGER")
-                .requestMatchers(HttpMethod.DELETE, "/employees/**").hasAnyRole("CEO","MANAGER")
-                .requestMatchers(HttpMethod.GET, "/employees").hasAnyRole("ADMIN", "CEO", "MANAGER")
-                .requestMatchers(HttpMethod.GET, "/employees/**").hasAnyRole("ADMIN", "CEO", "MANAGER", "EMPLOYEE")
+                .requestMatchers("/h2-console/**").permitAll()
+
+.requestMatchers(HttpMethod.POST, "/employees/createManager")
+    .hasRole("CEO")
+
+.requestMatchers(HttpMethod.POST, "/employees/create")
+    .hasAnyRole("ADMIN", "MANAGER")
+
+.requestMatchers(HttpMethod.PUT, "/employees/**")
+    .hasAnyRole("CEO", "MANAGER")
+
+.requestMatchers(HttpMethod.DELETE, "/employees/**")
+    .hasAnyRole("CEO", "MANAGER")
+
+.requestMatchers(HttpMethod.GET, "/employees")
+    .hasAnyRole("ADMIN", "CEO", "MANAGER","EMPLOYEE")
+
+.requestMatchers(HttpMethod.GET, "/employees/**")
+    .hasAnyRole("ADMIN", "CEO", "MANAGER", "EMPLOYEE")
 
 
                 .requestMatchers(HttpMethod.POST, "/department/**").hasAnyRole("ADMIN" , "CEO" ,"MANAGER")
                 .requestMatchers(HttpMethod.PUT, "/department/**").hasAnyRole("ADMIN", "CEO")
                 .requestMatchers(HttpMethod.DELETE, "/department/**").hasAnyRole("ADMIN","CEO")
                 .requestMatchers(HttpMethod.GET, "/department/**").hasAnyRole("ADMIN", "CEO", "MANAGER")
+
+                .requestMatchers(HttpMethod.POST,"/leaves/leaveRequest") .hasRole("EMPLOYEE")
+                .requestMatchers(HttpMethod.PATCH,"/leaves/*/status").hasAnyRole("ADMIN","MANAGER")
+                .requestMatchers(HttpMethod.POST,"/leaves/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET,"/leaves/active-today").hasAnyRole("ADMIN","MANAGER")
+                .requestMatchers(HttpMethod.GET,"/leaves/allApproved").hasAnyRole("ADMIN","MANAGER")
+                .requestMatchers(HttpMethod.GET,"/leaves/leaveStatus").hasAnyRole("ADMIN","EMPLOYEE")
+                .requestMatchers(HttpMethod.GET,"/leaves/allLeaves").hasAnyRole("ADMIN","MANAGER")
+                .requestMatchers("/leaves/**").hasAnyRole("ADMIN","MANAGER")
+
+
+                .requestMatchers(HttpMethod.GET, "/payroll/**").hasAnyRole("ADMIN", "CEO", "MANAGER")
                 
                 .anyRequest().authenticated())
                   .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 
 
-            .httpBasic(withDefaults())
-            .formLogin(withDefaults());
+            .httpBasic(withDefaults());
            
         return http.build();
     }

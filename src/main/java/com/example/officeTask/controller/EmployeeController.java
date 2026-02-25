@@ -1,5 +1,7 @@
 package com.example.officeTask.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,41 +27,35 @@ public class EmployeeController {
     }
 
     @PostMapping("/create")
-    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.createEmployee(employeeDTO);
+    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        EmployeeDTO created = employeeService.createEmployee(employeeDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/{id}")
-    public EmployeeDTO getEmployeeById(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long id) {
+        return ResponseEntity.ok(employeeService.getEmployeeById(id));
     }
 
-    @GetMapping("/employees")
-    public List<EmployeeDTO> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    @GetMapping
+    public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
+        return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
     @PutMapping("/{id}")
-    public EmployeeDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.updateEmployee(id, employeeDTO);
+    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+        return ResponseEntity.ok(employeeService.updateEmployee(id, employeeDTO));
     }
 
     @DeleteMapping("/{id}")
-    public String deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
-        return "Employee deleted successfully";
+        return ResponseEntity.ok("Employee deleted successfully");
     }
 
     @PostMapping("/createManager")
-    public Employee createManager(@RequestBody Employee employee){
-        return employeeService.createManager(employee);
+    public ResponseEntity<Employee> createManager(@RequestBody Employee employee) {
+        Employee created = employeeService.createManager(employee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
-
-   
-
-    // @GetMapping("/activeEmployees")
-    // public List<Employee> activeEmployees(){
-    //     employeeService.activeEmployees();
-    
-    // }
 }
